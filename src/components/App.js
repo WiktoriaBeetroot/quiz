@@ -5,6 +5,8 @@ import { Loader } from './Loader';
 import { Error } from './Error';
 import { MainScreen } from './MainScreen';
 import { Question } from './Question';
+import { Button } from './Button';
+import { Progress } from './Progress';
 
 const initialState = {
   questions: [],
@@ -45,15 +47,24 @@ function reducer(state, action) {
         ? state.points + question.points
         : state.points
       }
+    case 'nextQuestion' : 
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null
+      }
     default: 
       throw new Error('Action is undefined')
   }
 }
 
 export default function App() {
-  const [{questions, status, index, answer}, dispatch] = useReducer(reducer, initialState);
+  const [{questions, status, index, answer, points}, dispatch] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
+  const numPoints = questions.reduce((prev, curr) => {
+    return prev + curr.points
+  }, 0)
 
   useEffect(() => {
     async function fetchData() {
@@ -84,7 +95,13 @@ export default function App() {
         {status === 'loading' && <Loader />}
         {status === 'error' && <Error />}
         {status === 'ready' && <MainScreen numQuestions={ numQuestions } dispatch={ dispatch }/>}
-        {status === 'active' && <Question question={questions[index]}  dispatch={dispatch} answer={answer}/>}
+        {status === 'active' && 
+        <>
+          <Progress index={index} numQuestions={numQuestions} points={points} numPoints={numPoints} answer={answer}/>
+          <Question question={questions[index]}  dispatch={dispatch} answer={answer}/>
+          <Button dispatch={dispatch} answer={answer} />
+        </>
+        }
       </Main>
     </div>
   )
