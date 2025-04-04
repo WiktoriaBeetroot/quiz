@@ -61,6 +61,13 @@ function reducer(state, action) {
         status: 'finished',
         highscore: state.points > state.highscore ? state.points : state.highscore
       }
+    case 'restart' : 
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: 'ready',
+        highscore: state.highscore,
+      }
     default: 
       throw new Error('Action is undefined')
   }
@@ -111,7 +118,7 @@ export default function App() {
         </>
         }
 
-        {status === 'finished' && <FinishScreen numPoints={numPoints} points={points} highscore={highscore}/>}
+        {status === 'finished' && <FinishScreen numPoints={numPoints} points={points} highscore={highscore} dispatch={dispatch} />}
       </Main>
     </div>
   )

@@ -1,4 +1,4 @@
-export const FinishScreen = ({numPoints, points, highscore}) => {
+export const FinishScreen = ({numPoints, points, highscore, dispatch}) => {
     const percentage = (points * 100) / numPoints;
     let emoji;
 
@@ -12,6 +12,7 @@ export const FinishScreen = ({numPoints, points, highscore}) => {
         <>
             <p className="result">{emoji} Your score {points} out of {numPoints} points ({Math.ceil(percentage)}%)</p>
             <p className="highscore">Highscore: {highscore} points</p>
+            <button onClick={() => dispatch({type: 'restart'})} className="btn btn-ui">Restart</button>
         </> 
     )
 }
