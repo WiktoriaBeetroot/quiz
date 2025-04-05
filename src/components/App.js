@@ -83,8 +83,8 @@ export default function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const url = 'http://localhost:8000/questions';
-
+      const url = '/data/questions.json';
+  
       try {
         const response = await fetch(url);
   
@@ -93,14 +93,14 @@ export default function App() {
         }
   
         const data = await response.json();
-        dispatch({type: 'dataRecieved', payload: data})
-      }catch(error) {
-        dispatch({type: 'dataFailed'})
+        dispatch({ type: 'dataRecieved', payload: data.questions });
+      } catch (error) {
+        dispatch({ type: 'dataFailed' });
       }
     }
-
-    fetchData()
-  }, [])
+  
+    fetchData();
+  }, []);
 
   return (
     <div className="app">
