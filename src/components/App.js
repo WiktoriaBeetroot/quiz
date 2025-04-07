@@ -23,6 +23,7 @@ const initialState = {
   points: 0,
   highscore: 0,
   secondsRemain: null,
+  level: 0,
 }
 
 function reducer(state, action) {
@@ -80,13 +81,18 @@ function reducer(state, action) {
         secondsRemain: state.secondsRemain - 1,
         status: state.secondsRemain === 0 ? 'finished' : state.status,
       }
+    case 'setLevel' : 
+      return {
+        ...state,
+        level: action.payload
+      }
     default: 
       throw new Error('Action is undefined')
   }
 }
 
 export default function App() {
-  const [{questions, status, index, answer, points, highscore, secondsRemain}, dispatch] = useReducer(reducer, initialState);
+  const [{questions, status, index, answer, points, highscore, secondsRemain, level}, dispatch] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
   const numPoints = questions.reduce((prev, curr) => {
@@ -105,14 +111,14 @@ export default function App() {
         }
   
         const data = await response.json();
-        dispatch({ type: 'dataRecieved', payload: data.questions });
+        dispatch({ type: 'dataRecieved', payload: Number(level) > 0 ? data.questions.filter((curr) => curr.points === Number(level)) : data.questions });
       } catch (error) {
         dispatch({ type: 'dataFailed' });
       }
     }
   
     fetchData();
-  }, []);
+  }, [level]);
 
   return (
     <div className="app">

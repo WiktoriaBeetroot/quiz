@@ -27,6 +27,7 @@ body {
   color: var(--color-light);
   background-color: var(--color-darkest);
   padding: 3.2rem;
+  text-align: center;
 }
 
 .app {
@@ -36,16 +37,14 @@ body {
   justify-content: center;
 }
 
-.main {
-  width: 50rem;
-}
-
 .app-header {
-  width: 66rem;
-  margin-bottom: 4rem;
+  width: 100%;
+  margin-bottom: 8rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .error {
@@ -63,12 +62,12 @@ img {
 
 h1 {
   font-family: "Codystar";
-  font-size: 5.6rem;
+  font-size: 4.5rem;
 }
 
 h2 {
   font-size: 3.6rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 h3 {
@@ -81,6 +80,12 @@ h4 {
   font-size: 2.2rem;
   font-weight: 600;
   margin-bottom: 2.4rem;
+}
+
+.main {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 500px;
 }
 
 .start {
@@ -213,6 +218,40 @@ progress {
   border-radius: 100px;
 }
 
+.select {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+label {
+  font-size: 2.4rem;
+  color: var(--color-theme);
+  font-weight: 600;
+}
+
+select {
+  appearance: none;
+  display: block;
+  font-family: inherit;
+  color: var(--color-light);
+  font-size: 2rem;
+  border: 2px solid var(--color-light);
+  background-color: transparent;
+  padding: 1.2rem 4.4rem 1.2rem 2.4rem;
+  cursor: pointer;
+  border-radius: 100px;
+  transition: 0.3s;
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"%3E%3Cpath fill="none" stroke="%23f1f3f5" stroke-width="2" d="M2 6l6 6 6-6"%3E%3C/path%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 2.4rem center;
+  background-size: 1.2rem;
+  outline: none;
+}
+
+
 /* CREDIT: https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
 .loader {
   width: 50px;
@@ -256,4 +295,11 @@ progress {
 .counter * {
   font-size: inherit;
   padding: 0.8rem;
+}
+
+
+@media screen and (min-width: 768px) {
+  .app-header {
+    flex-direction: row;
+  }
 }
