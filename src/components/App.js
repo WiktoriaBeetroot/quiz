@@ -8,6 +8,10 @@ import { Question } from './Question';
 import { Button } from './Button';
 import { Progress } from './Progress';
 import { FinishScreen } from './FinishScreen';
+import { Footer } from './Footer';
+import { Timer } from './Timer';
+
+const SECONDS_PER_QUESTION = 30;
 
 const initialState = {
   questions: [],
@@ -18,6 +22,7 @@ const initialState = {
   answer: null,
   points: 0,
   highscore: 0,
+  secondsRemain: null,
 }
 
 function reducer(state, action) {
@@ -36,7 +41,8 @@ function reducer(state, action) {
     case 'start' :
       return {
         ...state,
-        status: 'active'
+        status: 'active',
+        secondsRemain: state.questions.length * SECONDS_PER_QUESTION,
       }
     case 'setAnswer' :
       const question = state.questions.at(state.index);
@@ -68,13 +74,19 @@ function reducer(state, action) {
         status: 'ready',
         highscore: state.highscore,
       }
+    case 'timer' : 
+      return {
+        ...state,
+        secondsRemain: state.secondsRemain - 1,
+        status: state.secondsRemain === 0 ? 'finished' : state.status,
+      }
     default: 
       throw new Error('Action is undefined')
   }
 }
 
 export default function App() {
-  const [{questions, status, index, answer, points, highscore}, dispatch] = useReducer(reducer, initialState);
+  const [{questions, status, index, answer, points, highscore, secondsRemain}, dispatch] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
   const numPoints = questions.reduce((prev, curr) => {
@@ -114,7 +126,10 @@ export default function App() {
         <>
           <Progress index={index} numQuestions={numQuestions} points={points} numPoints={numPoints} answer={answer}/>
           <Question question={questions[index]}  dispatch={dispatch} answer={answer}/>
-          <Button dispatch={dispatch} answer={answer} question={index} numQuestions={numQuestions} />
+          <Footer>
+            <Button dispatch={dispatch} answer={answer} question={index} numQuestions={numQuestions} />
+            <Timer dispatch={dispatch} secondsRemain={secondsRemain}/>
+          </ Footer>
         </>
         }
 
