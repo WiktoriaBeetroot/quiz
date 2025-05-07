@@ -101,7 +101,9 @@ export default function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const url = '/data/questions.json';
+      // Get the base URL for the current environment (works both locally and on GitHub Pages)
+      const baseUrl = window.location.pathname.includes('/quiz') ? '/quiz' : '';
+      const url = `${baseUrl}/data/questions.json`;
   
       try {
         const response = await fetch(url);
